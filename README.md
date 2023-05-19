@@ -4,6 +4,10 @@
 A simple keyauth ImGui Loader, clean finish and simple UI
 
 
+# Discord
+https://discord.gg/fp8pXaUgSn
+
+
 
 
 ## Screenshots
