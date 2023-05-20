@@ -1,9 +1,0 @@
-﻿  main.cpp
-T:\C++\Loaders\Citrus.WTF\main.cpp(146,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(149,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(153,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(178,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(180,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(182,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-T:\C++\Loaders\Citrus.WTF\main.cpp(187,81): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  PossiblesImguiLoader.vcxproj -> T:\C++\Loaders\Citrus.WTF\x64\Debug\PossiblesEpicLoader.exe
