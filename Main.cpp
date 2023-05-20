@@ -5,20 +5,18 @@
 #include "ui/fonts.h"
 #include "Auth/Auth.hpp"
 
-std::string name = ""; 
-std::string ownerid = "";
-std::string secret = "";
+std::string name = ""; // application name. right above the blurred text aka the secret on the licenses tab among other tabs
+std::string ownerid = ""; // ownerid, found in account settings. click your profile picture on top right of dashboard and then account settings.
+std::string secret = ""; // app secret, the blurred text on licenses tab and other tabs
 std::string version = "1.0";
 std::string url = "https://keyauth.win/api/1.2/";
 
 KeyAuth::api KeyAuthApp(name, ownerid, secret, version, url);
 
 
-ImVec4 white_smoke = ImVec4(246.0f / 255.0f, 245.0f / 255.0f, 247.0f / 255.0f, 1.0f);
-ImVec4 brown = ImVec4(157.0f / 255.0f, 91.0f / 255.0f, 37.0f / 255.0f, 1.0f);
-ImVec4 orange_pantone = ImVec4(255.0f / 255.0f, 101.0f / 255.0f, 1.0f / 255.0f, 1.0f);
-ImVec4 persian_orange = ImVec4(238.0f / 255.0f, 145.0f / 255.0f, 85.0f / 255.0f, 1.0f);
-ImVec4 black = ImVec4(51.0f / 255.0f, 51.0f / 255.0f, 51.0f / 255.0f, 1.0f);
+
+ImVec4 blueColor = ImVec4(0.00f, 0.40f, 0.75f, 1.00f); 
+
 
 void ApplyImGuiTheme()
 {
@@ -73,7 +71,8 @@ void ApplyImGuiTheme()
     style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f); // Plot histogram color
     style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.00f, 0.40f, 0.75f, 1.00f); // Blue plot histogram color when hovered
     style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f); // Selected text background color
-
+    style.Colors[ImGuiCol_PlotHistogram] = blueColor;
+    style.Colors[ImGuiCol_PlotHistogramHovered] = blueColor;
 
     // Adjust button text alignment
     style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
@@ -95,7 +94,34 @@ void clearItems()
 bool mainwind = false;
 bool loginwind = true;
 
+int selectedItem = 0;
 
+float progress = 0.0f;
+bool loadingbar = false;
+
+
+void UpdateProgress() {
+    progress = 0.0f;
+
+    loadingbar = !loadingbar;
+
+    const float increment = 0.01f;
+    const std::chrono::milliseconds duration(5000);
+
+    auto start = std::chrono::steady_clock::now();
+    while (progress < 1.0f) {
+        auto current = std::chrono::steady_clock::now();
+        float elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(current - start).count();
+        progress = elapsed / duration.count();
+
+        // Render the UI and update the window
+        // ...
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
+
+    loadingbar = !loadingbar;
+}
 
 void ui::render() {
     ApplyImGuiTheme();
@@ -229,9 +255,47 @@ void ui::render() {
 
     if (mainwind)
     {
-        
+        const char* products[] = { "Rainbow Six" , "Valorant", "Fortnite", "EFT", "Apex Legends"};
         ImGui::Begin(window_title, &globals.active, window_flags);
-        ImGui::Text("Welcome to the application!");
+
+        ImGui::BeginChild("##main", ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), true, window_flags);
+
+        ImGui::Text("Product: %s", products[selectedItem]);
+        ImGui::SetNextItemWidth(150);
+
+        ImGui::ListBox("##cheat", &selectedItem, products, IM_ARRAYSIZE(products), 10);
+
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(265);
+
+        // setup subscription levels on keyauth dashboard and make sure the product array matches the names
+        if (ImGui::Button("Load Cheat", ImVec2(130, 30)))
+        {
+
+            for (std::string subs : KeyAuthApp.data.subscriptions)
+            {
+                if (subs == products[selectedItem])
+                {
+                    // load cheat in here
+                    if (!loadingbar)
+                    {
+                        std::thread loadingThread(UpdateProgress);
+                        loadingThread.detach();
+                    }
+                }
+                else {
+                    MessageBox(NULL, "Subscription not found", "Subscription Error", NULL);
+                }
+            }
+        }
+
+        if (loadingbar) {
+            ImGui::ProgressBar(progress);
+        }
+
+
+        ImGui::EndChild();
+        
         ImGui::End();
     }
 
