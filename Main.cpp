@@ -224,7 +224,7 @@ void ui::render() {
                         else {
                             Beep(250, 300);
                             loginwind = false;
-                            mainwind = true;
+                            mainwind = !mainwind;
                             // continue to next window
 
                         }
@@ -314,7 +314,6 @@ void ui::init(LPDIRECT3DDEVICE9 device) {
         GetWindowRect(GetDesktopWindow(), &screen_rect);
         screen_res = ImVec2(float(screen_rect.right), float(screen_rect.bottom));
 
-        // init images here
 
     }
 }
