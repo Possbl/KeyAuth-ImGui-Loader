@@ -298,8 +298,7 @@ void ui::render() {
         
         ImGui::End();
     }
-     ImGui::End();
-
+     
 }
 
 
