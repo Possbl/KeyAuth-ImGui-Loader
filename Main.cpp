@@ -5,6 +5,8 @@
 #include "ui/fonts.h"
 #include "Auth/Auth.hpp"
 
+#include <string>
+
 std::string name = ""; // application name. right above the blurred text aka the secret on the licenses tab among other tabs
 std::string ownerid = ""; // ownerid, found in account settings. click your profile picture on top right of dashboard and then account settings.
 std::string secret = ""; // app secret, the blurred text on licenses tab and other tabs
@@ -86,11 +88,10 @@ void ApplyImGuiTheme()
 
 void clearItems()
 {
-    globals.pass_word[0] = '\0';
-    globals.user_name[0] = '\0';
-    globals.license[0] = '\0';
+    memset(globals.pass_word, '\0', sizeof(globals.pass_word));
+    memset(globals.user_name, '\0', sizeof(globals.user_name));
+    memset(globals.license, '\0', sizeof(globals.license));
 }
-
 bool mainwind = false;
 bool loginwind = true;
 
